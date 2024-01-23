@@ -1,11 +1,12 @@
-import React, { useState } from "react";
-import "../App.css";
+import { useState } from "react";
+
 import { Table } from "flowbite-react";
-import { Button } from "flowbite-react";
+import { Button, Modal } from "flowbite-react";
 import { Link } from "react-router-dom";
-import AddEmpModal from "./AddEmpModal";
+import EmpForm from "./EmpForm";
+
 export default function TableMain() {
-  const [openModal, setOpenModal] = useState(true);
+  const [openModal, setOpenModal] = useState(false);
 
   const tableHeads = ["Employee Name", "Role", "Phone", "Joining Date"];
 
@@ -22,9 +23,10 @@ export default function TableMain() {
   return (
     <>
       <div className="mt-3 mb-5">
-        <Link to="addemp">
-          <Button color="purple"> + Add Employee</Button>
-        </Link>
+        <Button color="purple" onClick={() => setOpenModal(true)}>
+          {" "}
+          + Add Employee
+        </Button>
       </div>
       <div className="overflow-x-auto">
         <Table>
@@ -67,6 +69,19 @@ export default function TableMain() {
           </Table.Body>
         </Table>
       </div>
+
+      {/* Modal code start  */}
+      <Modal dismissible show={openModal} onClose={() => setOpenModal(false)}>
+        <Modal.Header>Add An Employee</Modal.Header>
+        <Modal.Body>
+          {/* Imported Form  */}
+
+          <EmpForm />
+
+          {/*Form end */}
+        </Modal.Body>
+      </Modal>
+      {/* Modal code ends  */}
     </>
   );
 }
