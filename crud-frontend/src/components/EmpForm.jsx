@@ -106,6 +106,16 @@ function EmpForm() {
           </div>
           <div>
             <div className="mb-2 block">
+              <Label htmlFor="role" value="Your Salary" />
+            </div>
+            <TextInput
+              id="salary"
+              type="number"
+              {...register("salary", { required: "salary is Required" })}
+            />
+          </div>
+          <div>
+            <div className="mb-2 block">
               <Label htmlFor="jd" value="Your Date Of Joining" />
             </div>
             <TextInput

@@ -11,7 +11,6 @@ export default function TableMain() {
   const [emps, setEmps] = useState([]);
   const navigate = useNavigate();
   const tableHeads = ["Employee Name", "Role", "Phone", "Joining Date"];
-
   // const employees = [
   //   { name: "Om Jadav", role: "SDE-3", phone: 1231231230, doj: "12-02-2023" },
   //   {

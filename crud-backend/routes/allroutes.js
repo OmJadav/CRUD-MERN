@@ -6,14 +6,14 @@ const user = require("../models/userSchema")
 
 router.post("/addemp", async (req, res) => {
     console.log(req.body);
-    const { name, email, phone, role, doj, address } = req.body
+    const { name, email, phone, role, salary, doj, address } = req.body
 
     try {
         const already = await employee.findOne({ phone: phone });
         if (already) {
             res.status(400).json("This Employee already in Database!!!")
         } else {
-            const addemp = new employee({ name, email, phone, role, doj, address });
+            const addemp = new employee({ name, email, phone, role, salary, doj, address });
             await addemp.save();
             res.status(201).json("New Employee Added Successfully!")
         }
@@ -61,6 +61,21 @@ router.get("/view/:empid", async (req, res) => {
         res.send(response);
     } catch (error) {
         res.status(400).json("View By id Error...", error)
+    }
+})
+
+router.post("/edit/:empid", async (req, res) => {
+    const { empid } = req.params;
+    const { name, email, phone, role, salary, doj, address } = req.body;
+    const updateDetails = { name, email, phone, role, salary, doj, address }
+    console.log(empid);
+    try {
+        const response = await employee.updateOne({ _id: empid }, updateDetails);
+        // res.send(response);
+        res.status(201).json("Employee Updated Successfully!")
+
+    } catch (error) {
+        res.status(400).json("Edit By id Error...", error)
     }
 })
 

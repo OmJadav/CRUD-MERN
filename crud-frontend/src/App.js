@@ -12,12 +12,12 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/" Component={Homepage} >
+          <Route path="/" element={<Homepage />} >
           </Route>
-          <Route path="/view/:empid" Component={Viewpage} />
-          <Route path="/edit/:id" Component={Editpage} />
-          <Route path="/login" Component={Login} />
-          <Route path="/signup" Component={Signup} />
+          <Route path="/view/:empid" element={<Viewpage />} />
+          <Route path="/edit/:empid" element={<Editpage />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
         </Routes>
       </BrowserRouter>
     </>

@@ -1,22 +1,57 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button, Label, TextInput, Textarea } from "flowbite-react";
 import { useParams } from "react-router-dom";
+import axios from "axios";
 
 export default function Edit() {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm();
 
   const params = useParams();
+  const empid = params.empid;
+  useEffect(() => {
+    const fetchEmpById = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5000/view/${empid}`);
+        // setEmpDetails(response.data);
+        setValue("name", response.data.name);
+        setValue("email", response.data.email);
+        setValue("phone", response.data.phone);
+        setValue("role", response.data.role);
+        setValue("salary", response.data.salary);
+        setValue("doj", response.data.doj);
+        setValue("address", response.data.address);
+      } catch (error) {
+        console.log("Error edit by id axios:", error);
+      }
+    };
+    fetchEmpById();
+  }, [empid, setValue]);
+
+  const updateDetails = async (data) => {
+    // reset();
+    try {
+      const response = await axios.post(
+        `http://localhost:5000/edit/${empid}`,
+        data
+      );
+
+      console.log("User Updated successfully:", response.data);
+    } catch (error) {
+      console.log("Error Updating user axios:", error);
+    }
+  };
   return (
     <>
       <header className="bg-white shadow">
         <div className="mx-auto max-w-7xl px-4 py-3  sm:px-6 lg:px-8 ">
           <h1 className="text-3xl font-bold tracking-tight text-gray-900">
-            Edit Employee Details of {params.id}
+            Edit Employee Details
           </h1>
         </div>
       </header>
@@ -26,9 +61,7 @@ export default function Edit() {
           <form
             noValidate
             className="flex  flex-col gap-4 form-shadow "
-            onSubmit={handleSubmit((data) => {
-              console.log("Form submitted:", data);
-            })}
+            onSubmit={handleSubmit(updateDetails)}
           >
             <div>
               <div className="mb-2 block">
@@ -94,13 +127,22 @@ export default function Edit() {
             </div>
             <div>
               <div className="mb-2 block">
-                <Label htmlFor="jd" value="Date Of Joining" />
+                <Label htmlFor="salary" value="Salary" />
               </div>
               <TextInput
-                id="jd"
-                placeholder="dd-mm-yyyy"
+                id="salary"
+                type="number"
+                {...register("salary", { required: "Salary is Required" })}
+              />
+            </div>
+            <div>
+              <div className="mb-2 block">
+                <Label htmlFor="doj" value="Date Of Joining(dd-mm-yyyy)" />
+              </div>
+              <TextInput
+                id="doj"
                 type="text"
-                {...register("jd", { required: "DOJ is Required" })}
+                {...register("doj", { required: "DOJ is Required" })}
               />
             </div>
             <div>
