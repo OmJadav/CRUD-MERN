@@ -2,6 +2,8 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { Button, Label, TextInput, Textarea } from "flowbite-react";
 import axios from "axios";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 function EmpForm() {
   const {
@@ -10,14 +12,20 @@ function EmpForm() {
     reset,
     formState: { errors },
   } = useForm();
+  const navigate = useNavigate();
 
   const registered = async (data) => {
-    // reset();
+    reset();
     try {
       const response = await axios.post("http://localhost:5000/addemp", data);
-      console.log("Employee added successfully:", response.data);
+
+      Swal.fire("Success", response.data.message, "success").then(() =>
+        window.location.reload()
+      );
+      console.log(response.data.message);
     } catch (error) {
       console.log("Error Employee adding:", error);
+      Swal.fire("Something Went Wrong", error.response.data.error, "error");
     }
   };
 

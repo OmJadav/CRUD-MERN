@@ -11,15 +11,15 @@ router.post("/addemp", async (req, res) => {
     try {
         const already = await employee.findOne({ phone: phone });
         if (already) {
-            res.status(400).json("This Employee already in Database!!!")
+            res.status(400).json({ error: "This Employee already in Database!!!" })
         } else {
             const addemp = new employee({ name, email, phone, role, salary, doj, address });
             await addemp.save();
-            res.status(201).json("New Employee Added Successfully!")
+            res.status(201).json({ message: "New Employee Added Successfully!" })
         }
 
     } catch (error) {
-        res.status(400).json("Adding employee error...", error)
+        res.status(400).json({ error: "Adding employee error..." })
     }
 })
 
@@ -29,7 +29,7 @@ router.get("/allemp", async (req, res) => {
         // res.status(201).json(getemp)
         res.send(getemp)
     } catch (error) {
-        res.status(400).json("Getting All employee error....", error)
+        res.status(400).json({ error: "Getting All employee error...." })
     }
 
 })
@@ -42,13 +42,13 @@ router.post("/signup", async (req, res) => {
     try {
         const already = await user.findOne({ email: email });
         if (already) {
-            res.status(400).json("User Already exists")
+            res.status(400).json({ error: "User Already exists" })
         } else {
             const newuser = new user({ name, email, password });
             await newuser.save()
         }
     } catch (error) {
-        res.status(400).json("Signup Error...", error)
+        res.status(400).json({ error: "Signup Error..." })
     }
 })
 
@@ -60,7 +60,7 @@ router.get("/view/:empid", async (req, res) => {
         const response = await employee.findOne({ _id: empid })
         res.send(response);
     } catch (error) {
-        res.status(400).json("View By id Error...", error)
+        res.status(400).json({ error: "View By id Error..." })
     }
 })
 
@@ -72,10 +72,21 @@ router.post("/edit/:empid", async (req, res) => {
     try {
         const response = await employee.updateOne({ _id: empid }, updateDetails);
         // res.send(response);
-        res.status(201).json("Employee Updated Successfully!")
+        res.status(201).json({ message: "Employee Updated Successfully!" })
 
     } catch (error) {
-        res.status(400).json("Edit By id Error...", error)
+        res.status(400).json({ error: "Edit By id Error..." })
+    }
+})
+
+router.get("/delete/:empid", async (req, res) => {
+    const { empid } = req.params;
+    try {
+        const deleteUser = await employee.deleteOne({ _id: empid })
+        res.status(201).json({ message: "Employee Deleted Successfully!" })
+
+    } catch (error) {
+        res.status(400).json({ error: "Delete By id Error..." })
     }
 })
 
@@ -89,12 +100,10 @@ router.post("/login", async (req, res) => {
             const temp = { name: userfound.name, email: userfound.email, isAdmin: userfound.isAdmin, _id: userfound._id, }
             res.status(201, temp).json("User Logged in")
         } else {
-            res.status(400).json("User Not Exists")
+            res.status(400).json({ error: "User Not Exists" })
         }
-
-
     } catch (error) {
-        res.status(400).json("Login Error...", error)
+        res.status(400).json({ error: "Login Error..." })
     }
 
 })

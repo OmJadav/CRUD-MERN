@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button, Label, TextInput, Textarea } from "flowbite-react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import Loader from "./Loader";
+import Swal from "sweetalert2";
 
 export default function Edit() {
   const {
@@ -11,12 +13,15 @@ export default function Edit() {
     setValue,
     formState: { errors },
   } = useForm();
+  let [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   const params = useParams();
   const empid = params.empid;
   useEffect(() => {
     const fetchEmpById = async () => {
       try {
+        setLoading(true);
         const response = await axios.get(`http://localhost:5000/view/${empid}`);
         // setEmpDetails(response.data);
         setValue("name", response.data.name);
@@ -26,7 +31,10 @@ export default function Edit() {
         setValue("salary", response.data.salary);
         setValue("doj", response.data.doj);
         setValue("address", response.data.address);
+
+        setLoading(false);
       } catch (error) {
+        setLoading(false);
         console.log("Error edit by id axios:", error);
       }
     };
@@ -40,10 +48,13 @@ export default function Edit() {
         `http://localhost:5000/edit/${empid}`,
         data
       );
-
-      console.log("User Updated successfully:", response.data);
+      Swal.fire("Success", response.data.message, "success").then(() => {
+        navigate("/");
+      });
+      console.log(response.data.message);
     } catch (error) {
       console.log("Error Updating user axios:", error);
+      Swal.fire("Something Went Wrong", error.response.data.error, "error");
     }
   };
   return (
@@ -55,6 +66,8 @@ export default function Edit() {
           </h1>
         </div>
       </header>
+      {loading && <Loader />}
+
       <main>
         <div className="mx-auto max-w-3xl py-6 sm:px-6 lg:px-8">
           {/* empform edit starts here / */}

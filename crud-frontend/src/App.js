@@ -6,6 +6,7 @@ import Login from './components/Login';
 import Editpage from './pages/Editpage';
 import Viewpage from './pages/Viewpage';
 import Addpage from './pages/Addpage';
+import Loader from './components/Loader';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/edit/:empid" element={<Editpage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/load" element={<Loader />} />
         </Routes>
       </BrowserRouter>
     </>

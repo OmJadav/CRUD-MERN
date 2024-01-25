@@ -1,16 +1,21 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import Loader from "./Loader";
 function View() {
+  let [loading, setLoading] = useState(true);
   const params = useParams();
   const empid = params.empid;
   const [empDetails, setEmpDetails] = useState([]);
   useEffect(() => {
     const fetchEmpById = async () => {
       try {
+        setLoading(true);
         const response = await axios.get(`http://localhost:5000/view/${empid}`);
         setEmpDetails(response.data);
+        setLoading(false);
       } catch (error) {
+        setLoading(false);
         console.log("Error view by id axios:", error);
       }
     };
@@ -27,6 +32,8 @@ function View() {
           </h1>
         </div>
       </header>
+      {loading && <Loader />}
+
       <main>
         <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
           {/* All the description starts from here  */}
