@@ -1,5 +1,6 @@
 import React from "react";
 import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
 
 function Login() {
   const {
@@ -27,7 +28,8 @@ function Login() {
                 {...register("email", {
                   required: "Email is Required",
                   pattern: {
-                    value: /\b[\w\.-]+@[\w\.-]+\.\w{2,4}\b/gi,
+                    // value: /\b[\w\.-]+@[\w\.-]+\.\w{2,4}\b/gi,
+                    value: /\b\w+@[\w.-]+\.\w{2,4}\b/gi,
                     message: "email not valid",
                   },
                 })}
@@ -65,32 +67,32 @@ function Login() {
 
           <div className="text-center text-sm text-gray-700 mt-4">
             By signing up, you agree to the
-            <a
+            <Link
               className="no-underline border-b border-gray-700 text-gray-700"
-              href="#"
+              to="#"
             >
               {" "}
               Terms of Service
-            </a>{" "}
+            </Link>{" "}
             and
-            <a
+            <Link
               className="no-underline border-b border-gray-700 text-gray-700"
               href="#"
             >
               {" "}
               Privacy Policy
-            </a>
+            </Link>
           </div>
         </div>
 
         <div className="text-gray-700 mt-6">
           Don't Have an Account?
-          <a
+          <Link
             className="no-underline border-b border-blue-500 text-blue-500"
             href="/signup"
           >
             Sign in
-          </a>
+          </Link>
           .
         </div>
       </div>
