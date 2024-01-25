@@ -22,7 +22,7 @@ export default function Edit() {
     const fetchEmpById = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(`http://localhost:5000/view/${empid}`);
+        const response = await axios.get(`/view/${empid}`);
         // setEmpDetails(response.data);
         setValue("name", response.data.name);
         setValue("email", response.data.email);
@@ -44,10 +44,7 @@ export default function Edit() {
   const updateDetails = async (data) => {
     // reset();
     try {
-      const response = await axios.post(
-        `http://localhost:5000/edit/${empid}`,
-        data
-      );
+      const response = await axios.post(`/edit/${empid}`, data);
       Swal.fire("Success", response.data.message, "success").then(() => {
         navigate("/");
       });

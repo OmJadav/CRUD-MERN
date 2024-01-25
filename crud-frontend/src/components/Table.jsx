@@ -29,7 +29,7 @@ export default function TableMain() {
       try {
         setloading(true);
 
-        const response = await axios.get(`http://localhost:5000/allemp`);
+        const response = await axios.get(`/allemp`);
         setEmps(response.data);
         setloading(false);
       } catch (error) {
@@ -49,11 +49,9 @@ export default function TableMain() {
   const deleteEmployee = async () => {
     setOpen(false);
     try {
-      const response = await axios
-        .get(`http://localhost:5000/delete/${employeeid}`)
-        .then(() => {
-          window.location.reload();
-        });
+      const response = await axios.get(`/delete/${employeeid}`).then(() => {
+        window.location.reload();
+      });
     } catch (error) {
       console.log("Employee deleting Error :", error);
     }

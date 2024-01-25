@@ -17,7 +17,7 @@ function EmpForm() {
   const registered = async (data) => {
     reset();
     try {
-      const response = await axios.post("http://localhost:5000/addemp", data);
+      const response = await axios.post("/addemp", data);
 
       Swal.fire("Success", response.data.message, "success").then(() =>
         window.location.reload()

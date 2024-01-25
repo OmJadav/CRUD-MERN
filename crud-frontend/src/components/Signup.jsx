@@ -13,7 +13,7 @@ function Signup() {
   const registered = async (data) => {
     reset();
     try {
-      const response = await axios.post("http://localhost:5000/signup", data);
+      const response = await axios.post("/signup", data);
       console.log("User registered successfully:", response.data);
     } catch (error) {
       console.log("Error registering user axios:", error);

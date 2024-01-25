@@ -11,7 +11,7 @@ function View() {
     const fetchEmpById = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(`http://localhost:5000/view/${empid}`);
+        const response = await axios.get(`/view/${empid}`);
         setEmpDetails(response.data);
         setLoading(false);
       } catch (error) {
