@@ -1,5 +1,5 @@
 import './App.css';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import Homepage from './pages/Homepage';
 import Signup from './components/Signup';
 import Login from './components/Login';
@@ -20,6 +20,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/load" element={<Loader />} />
+          <Route path="*" element={<Navigate to={'/'} />} />
         </Routes>
       </BrowserRouter>
     </>
