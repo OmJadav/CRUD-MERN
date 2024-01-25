@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Loader from "./Loader";
+import backendUrl from "../urlhelper/urlHelper";
 function View() {
   let [loading, setLoading] = useState(true);
   const params = useParams();
@@ -11,7 +12,7 @@ function View() {
     const fetchEmpById = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(`/view/${empid}`);
+        const response = await axios.get(`${backendUrl}/view/${empid}`);
         setEmpDetails(response.data);
         setLoading(false);
       } catch (error) {

@@ -5,6 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import Loader from "./Loader";
 import Swal from "sweetalert2";
+import backendUrl from "../urlhelper/urlHelper";
 
 export default function Edit() {
   const {
@@ -22,7 +23,7 @@ export default function Edit() {
     const fetchEmpById = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(`/view/${empid}`);
+        const response = await axios.get(`${backendUrl}/view/${empid}`);
         // setEmpDetails(response.data);
         setValue("name", response.data.name);
         setValue("email", response.data.email);
@@ -44,7 +45,7 @@ export default function Edit() {
   const updateDetails = async (data) => {
     // reset();
     try {
-      const response = await axios.post(`/edit/${empid}`, data);
+      const response = await axios.post(`${backendUrl}/edit/${empid}`, data);
       Swal.fire("Success", response.data.message, "success").then(() => {
         navigate("/");
       });

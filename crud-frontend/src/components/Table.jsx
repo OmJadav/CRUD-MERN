@@ -9,8 +9,8 @@ import { Button, Modal } from "flowbite-react";
 import { Link, useNavigate } from "react-router-dom";
 import EmpForm from "./EmpForm";
 import axios from "axios";
-import Swal from "sweetalert2";
 import Loader from "./Loader";
+import backendUrl from "../urlhelper/urlHelper";
 
 export default function TableMain() {
   const [loading, setloading] = useState(true);
@@ -29,7 +29,7 @@ export default function TableMain() {
       try {
         setloading(true);
 
-        const response = await axios.get(`/allemp`);
+        const response = await axios.get(`${backendUrl}/allemp`);
         setEmps(response.data);
         setloading(false);
       } catch (error) {
@@ -49,11 +49,14 @@ export default function TableMain() {
   const deleteEmployee = async () => {
     setOpen(false);
     try {
-      const response = await axios.get(`/delete/${employeeid}`).then(() => {
-        window.location.reload();
-      });
+      const response = await axios
+        .get(`${backendUrl}/delete/${employeeid}`)
+        .then(() => {
+          window.location.reload();
+        });
+      console.log(response.message);
     } catch (error) {
-      console.log("Employee deleting Error :", error);
+      console.log("Employee deleting Error :", error.response.data.error);
     }
   };
   return (

@@ -1,7 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import backendUrl from "../urlhelper/urlHelper";
 function Signup() {
   const {
     register,
@@ -13,7 +14,7 @@ function Signup() {
   const registered = async (data) => {
     reset();
     try {
-      const response = await axios.post("/signup", data);
+      const response = await axios.post(`${backendUrl}/signup`, data);
       console.log("User registered successfully:", response.data);
     } catch (error) {
       console.log("Error registering user axios:", error);

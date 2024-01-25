@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { Button, Label, TextInput, Textarea } from "flowbite-react";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
+import backendUrl from "../urlhelper/urlHelper";
 
 function EmpForm() {
   const {
@@ -12,12 +12,11 @@ function EmpForm() {
     reset,
     formState: { errors },
   } = useForm();
-  const navigate = useNavigate();
 
   const registered = async (data) => {
     reset();
     try {
-      const response = await axios.post("/addemp", data);
+      const response = await axios.post(`${backendUrl}/addemp`, data);
 
       Swal.fire("Success", response.data.message, "success").then(() =>
         window.location.reload()
