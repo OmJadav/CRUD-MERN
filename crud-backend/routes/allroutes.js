@@ -95,18 +95,38 @@ router.post("/login", async (req, res) => {
     // console.log(req.body);
     const { email, password } = req.body;
 
+    // try {
+    //     const userfound = await user.findOne({ email: email, password: password })
+    //     if (userfound) {
+    //         const temp = { name: userfound.name, email: userfound.email, isAdmin: userfound.isAdmin, _id: userfound._id, }
+    //         res.status(201).json({ user: temp, message: "User Logged in", });
+    //     } else {
+    //         res.status(400).json({ error: "User Not Exists" })
+    //     }
+    // } catch (error) {
+    //     res.status(400).json({ error: "Login Error..." })
+    // }
+
     try {
+
         const userfound = await user.findOne({ email: email, password: password })
+
         if (userfound) {
             const temp = { name: userfound.name, email: userfound.email, isAdmin: userfound.isAdmin, _id: userfound._id, }
-            res.status(201).json({ message: "User Logged in", user: temp });
+            res.status(201).json({ user: temp, message: "User Logged in" })
         } else {
-            res.status(400).json({ error: "User Not Exists" })
+            const emailFound = await user.findOne({ email: email });
+
+            if (emailFound) {
+                return res.status(400).json({ error: "Incorrect Password. Try again" });
+            } else {
+                return res.status(400).json({ error: "User not found" });
+            }
         }
+
     } catch (error) {
         res.status(400).json({ error: "Login Error..." })
     }
-
 })
 
 

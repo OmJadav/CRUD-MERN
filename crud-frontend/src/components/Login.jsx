@@ -25,7 +25,7 @@ function Login() {
       Swal.fire("Success", response.data.message, "success").then(
         () => (window.location.href = "/")
       );
-      console.log("Form submitted:", data);
+      console.log("Form submitted:", response.data.user);
     } catch (error) {
       console.log(error.response.data.error);
 
