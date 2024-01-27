@@ -99,7 +99,7 @@ router.post("/login", async (req, res) => {
         const userfound = await user.findOne({ email: email, password: password })
         if (userfound) {
             const temp = { name: userfound.name, email: userfound.email, isAdmin: userfound.isAdmin, _id: userfound._id, }
-            res.status(201).json({ user: temp, message: "User Logged in", });
+            res.send(temp)
         } else {
             res.status(400).json({ error: "User Not Exists" })
         }
