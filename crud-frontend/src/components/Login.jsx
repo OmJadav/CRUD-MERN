@@ -20,7 +20,7 @@ function Login() {
       setloading(true);
       const response = await axios.post(`${backendUrl}/login`, data);
       setloading(false);
-      localStorage.setItem("currentUser", JSON.stringify(response.data));
+      localStorage.setItem("currentUser", JSON.stringify(response.data.user));
 
       Swal.fire("Success", response.data.message, "success").then(
         () => (window.location.href = "/")
