@@ -18,7 +18,7 @@ function Login() {
   const userLogin = async (data) => {
     try {
       setloading(true);
-      const response = await axios.post(`${backendUrl}/login`, data);
+      const response = await axios.post(`${backendUrl}/login`, { data });
       setloading(false);
       sessionStorage.setItem("currentUser", JSON.stringify(response.data.user));
 
