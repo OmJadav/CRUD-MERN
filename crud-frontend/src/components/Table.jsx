@@ -11,6 +11,8 @@ import EmpForm from "./EmpForm";
 import axios from "axios";
 import Loader from "./Loader";
 import backendUrl from "../urlhelper/urlHelper";
+import AdminProtected from "../protected/AdminProtected";
+import Swal from "sweetalert2";
 
 export default function TableMain() {
   const [loading, setloading] = useState(true);
@@ -22,8 +24,15 @@ export default function TableMain() {
 
   const cancelButtonRef = useRef(null);
   const navigate = useNavigate();
-  const tableHeads = ["Employee Name", "Role", "Phone", "Joining Date"];
+  const tableHeads = [
+    "Employee Name",
+    "Role",
+    "Phone",
+    "Joining Date",
+    "Address",
+  ];
 
+  const user = JSON.parse(localStorage.getItem("currentUser"));
   useEffect(() => {
     const fetchEmp = async () => {
       try {
@@ -48,15 +57,19 @@ export default function TableMain() {
   };
   const deleteEmployee = async () => {
     setOpen(false);
-    try {
-      const response = await axios
-        .get(`${backendUrl}/delete/${employeeid}`)
-        .then(() => {
-          window.location.reload();
-        });
-      console.log(response.message);
-    } catch (error) {
-      console.log("Employee deleting Error :", error.response.data.error);
+    if (user && user.isAdmin === "true") {
+      try {
+        const response = await axios
+          .get(`${backendUrl}/delete/${employeeid}`)
+          .then(() => {
+            window.location.reload();
+          });
+        console.log(response.message);
+      } catch (error) {
+        console.log("Employee deleting Error :", error.response.data.error);
+      }
+    } else {
+      Swal.fire("Access denied", "You are not ADMIN", "error");
     }
   };
   return (
@@ -92,18 +105,19 @@ export default function TableMain() {
                   <Table.Cell>{emp.role}</Table.Cell>
                   <Table.Cell>{emp.phone}</Table.Cell>
                   <Table.Cell>{emp.doj}</Table.Cell>
+                  <Table.Cell>{emp.address}</Table.Cell>
                   <Table.Cell className="flex flex-row">
                     <Link to={`/view/${emp._id}`}>
                       <Button className="mr-3" color="success">
                         View
                       </Button>
                     </Link>
+
                     <Link to={`/edit/${emp._id}`}>
                       <Button className="mr-3" color="blue">
                         Edit
                       </Button>
                     </Link>
-                    {/* <Link to={`/delete/${emp._id}`}> */}
                     <Button
                       className="mr-3"
                       color="failure"
@@ -111,7 +125,6 @@ export default function TableMain() {
                     >
                       Delete
                     </Button>
-                    {/* </Link> */}
                   </Table.Cell>
                 </Table.Row>
               ))}

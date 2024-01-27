@@ -5,11 +5,11 @@ const user = require("../models/userSchema")
 
 
 router.post("/addemp", async (req, res) => {
-    console.log(req.body);
+    // console.log(req.body);
     const { name, email, phone, role, salary, doj, address } = req.body
 
     try {
-        const already = await employee.findOne({ phone: phone });
+        const already = await employee.findOne({ phone: phone, email: email });
         if (already) {
             res.status(400).json({ error: "This Employee already in Database!!!" })
         } else {
@@ -35,7 +35,7 @@ router.get("/allemp", async (req, res) => {
 })
 
 router.post("/signup", async (req, res) => {
-    console.log(req.body);
+    // console.log(req.body);
 
     const { name, email, password } = req.body
 
@@ -46,6 +46,8 @@ router.post("/signup", async (req, res) => {
         } else {
             const newuser = new user({ name, email, password });
             await newuser.save()
+            res.status(201).json({ message: "Sign up Successful" })
+
         }
     } catch (error) {
         res.status(400).json({ error: "Signup Error..." })
@@ -55,7 +57,7 @@ router.post("/signup", async (req, res) => {
 
 router.get("/view/:empid", async (req, res) => {
     const { empid } = req.params;
-    console.log(empid);
+    // console.log(empid);
     try {
         const response = await employee.findOne({ _id: empid })
         res.send(response);
@@ -68,10 +70,9 @@ router.post("/edit/:empid", async (req, res) => {
     const { empid } = req.params;
     const { name, email, phone, role, salary, doj, address } = req.body;
     const updateDetails = { name, email, phone, role, salary, doj, address }
-    console.log(empid);
     try {
         const response = await employee.updateOne({ _id: empid }, updateDetails);
-        // res.send(response);
+        res.send(response);
         res.status(201).json({ message: "Employee Updated Successfully!" })
 
     } catch (error) {
@@ -91,17 +92,26 @@ router.get("/delete/:empid", async (req, res) => {
 })
 
 router.post("/login", async (req, res) => {
-    console.log(req.body);
+    // console.log(req.body);
     const { email, password } = req.body;
 
     try {
+
         const userfound = await user.findOne({ email: email, password: password })
+
         if (userfound) {
-            const temp = { name: userfound.name, email: userfound.email, isAdmin: userfound.isAdmin, _id: userfound._id, }
-            res.status(201, temp).json("User Logged in")
+            const response = { name: userfound.name, email: userfound.email, isAdmin: userfound.isAdmin, _id: userfound._id, }
+            res.status(201).json({ user: response, message: "User Logged in" })
         } else {
-            res.status(400).json({ error: "User Not Exists" })
+            const emailFound = await user.findOne({ email: email });
+
+            if (emailFound) {
+                return res.status(400).json({ error: "Incorrect Password. Try again" });
+            } else {
+                return res.status(400).json({ error: "User not found" });
+            }
         }
+
     } catch (error) {
         res.status(400).json({ error: "Login Error..." })
     }

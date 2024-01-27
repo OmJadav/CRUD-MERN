@@ -3,6 +3,8 @@ import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import backendUrl from "../urlhelper/urlHelper";
+import { Button } from "flowbite-react";
+import Swal from "sweetalert2";
 function Signup() {
   const {
     register,
@@ -15,8 +17,13 @@ function Signup() {
     reset();
     try {
       const response = await axios.post(`${backendUrl}/signup`, data);
+      Swal.fire("Success", response.data.message, "success").then(
+        () => (window.location.href = "/login")
+      );
+
       console.log("User registered successfully:", response.data);
     } catch (error) {
+      Swal.fire(error.response.data.error, "Sign up failed", "error");
       console.log("Error registering user axios:", error);
     }
   };
@@ -100,12 +107,20 @@ function Signup() {
               )}
             </div>
 
-            <button
+            {/* <button
               type="submit"
               className="w-full text-center  py-3 rounded bg-green-500 text-white hover:bg-green-700 focus:outline-none my-1"
             >
               Create Account
-            </button>
+            </button> */}
+
+            <Button
+              type="submit"
+              className="w-full text-2xl text-center py-1 "
+              color="purple"
+            >
+              Create Account
+            </Button>
           </form>
           <div className="text-center text-sm text-gray-700 mt-4">
             By signing up, you agree to the
@@ -134,6 +149,15 @@ function Signup() {
             to="/login"
           >
             Log in
+          </Link>
+          .
+        </div>
+        <div className="text-gray-700 mt-6">
+          <Link
+            className="no-underline border-b border-blue-500 text-blue-500"
+            to="/"
+          >
+            Return back to Home page
           </Link>
           .
         </div>
