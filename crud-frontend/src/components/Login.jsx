@@ -20,16 +20,16 @@ function Login() {
       setloading(true);
       const response = await axios.post(`${backendUrl}/login`, data);
       setloading(false);
-      localStorage.setItem("currentUser", JSON.stringify(response.data.user));
+      localStorage.setItem("currentUser", JSON.stringify(response.data));
 
       Swal.fire("Success", response.data.message, "success").then(
         () => (window.location.href = "/")
       );
-      console.log("Form submitted:", response.data.user);
+      console.log("Form submitted:", response.data);
     } catch (error) {
-      console.log(error.response.data.error);
+      console.log(error.response.error);
 
-      Swal.fire(error.response.data.error, "Login failed", "error");
+      Swal.fire(error.response.error, "Login failed", "error");
       setloading(false);
     }
   };
