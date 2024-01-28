@@ -15,21 +15,21 @@ function Login() {
     formState: { errors },
   } = useForm();
 
-  const userLogin = async (userData) => {
+  const userLogin = async (data) => {
     try {
       setloading(true);
-      const response = (await axios.post(`${backendUrl}/login`, userData)).data;
+      const response = await axios.post(`${backendUrl}/login`, data);
       setloading(false);
-      localStorage.setItem("currentUser", JSON.stringify(response));
+      localStorage.setItem("currentUser", JSON.stringify(response.data.user));
 
-      Swal.fire("Success", response, "success").then(
+      Swal.fire("Success", response.data.message, "success").then(
         () => (window.location.href = "/")
       );
-      console.log("Form submitted:", response);
+      console.log("Form submitted:", data);
     } catch (error) {
-      console.log(error);
+      console.log(error.response.data.error);
 
-      Swal.fire(error, "Login failed", "error");
+      Swal.fire(error.response.data.error, "Login failed", "error");
       setloading(false);
     }
   };
