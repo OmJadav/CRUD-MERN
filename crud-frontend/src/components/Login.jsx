@@ -22,14 +22,14 @@ function Login() {
       setloading(false);
       localStorage.setItem("currentUser", JSON.stringify(response));
 
-      Swal.fire("Success", response.message, "success").then(
+      Swal.fire("Success", "User Logged in", "success").then(
         () => (window.location.href = "/")
       );
       console.log("Form submitted:", response);
     } catch (error) {
-      console.log(error.response.error);
+      console.log(error);
 
-      Swal.fire(error.response.error, "Login failed", "error");
+      Swal.fire(error, "Login failed", "error");
       setloading(false);
     }
   };
