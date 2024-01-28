@@ -15,10 +15,10 @@ function Login() {
     formState: { errors },
   } = useForm();
 
-  const userLogin = async (data) => {
+  const userLogin = async (userData) => {
     try {
       setloading(true);
-      const response = await axios.post(`${backendUrl}/login`, data);
+      const response = (await axios.post(`${backendUrl}/login`, userData)).data;
       setloading(false);
       localStorage.setItem("currentUser", JSON.stringify(response.data));
 
