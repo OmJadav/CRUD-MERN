@@ -22,7 +22,7 @@ function Login() {
       setloading(false);
       localStorage.setItem("currentUser", JSON.stringify(response));
 
-      Swal.fire("Success", "User Logged in", "success").then(
+      Swal.fire("Success", response, "success").then(
         () => (window.location.href = "/")
       );
       console.log("Form submitted:", response);
