@@ -101,8 +101,8 @@ export default function Navbar({ Children }) {
                           <div className="py-1">
                             <Menu.Item>
                               {({ active }) => (
-                                <a
-                                  href="#"
+                                <Link
+                                  to="/profile"
                                   className={classNames(
                                     active
                                       ? "bg-gray-100 text-gray-900"
@@ -111,7 +111,7 @@ export default function Navbar({ Children }) {
                                   )}
                                 >
                                   Profile
-                                </a>
+                                </Link>
                               )}
                             </Menu.Item>
 

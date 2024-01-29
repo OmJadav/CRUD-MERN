@@ -1,14 +1,13 @@
 import './App.css';
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Homepage from './pages/Homepage';
 import Signup from './components/Signup';
 import Login from './components/Login';
 import Editpage from './pages/Editpage';
 import Viewpage from './pages/Viewpage';
-import Addpage from './pages/Addpage';
-import Loader from './components/Loader';
 import AdminProtected from './protected/AdminProtected';
 import PageNotFound from './pages/PageNotFound';
+import Profilepage from './pages/Profilepage';
 
 function App() {
   return (
@@ -24,7 +23,7 @@ function App() {
           <Route path="/edit/:empid" element={<AdminProtected><Editpage /></AdminProtected>} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/load" element={<Loader />} />
+          <Route path="/profile" element={<Profilepage />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </BrowserRouter>
